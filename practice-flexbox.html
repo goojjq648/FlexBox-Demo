@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexBox Practice</title>
+    <!-- Prism 相關 -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/plugins/line-numbers/prism-line-numbers.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/plugins/toolbar/prism-toolbar.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/plugins/line-numbers/prism-line-numbers.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/plugins/toolbar/prism-toolbar.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/plugins/show-language/prism-show-language.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.28.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script>
+
+    <style>
+        .container {
+        display: flex;
+        }
+
+        .flexbox-demo, .code-display {
+        width: 50%;
+        padding: 5px 20px 10px 20px;
+        box-sizing: border-box;
+        }
+
+        .flexbox-demo {
+        border-right: 1px solid #ccc;
+        }
+
+        .flexbox-container {
+        display: flex;
+        gap: 10px;
+        padding: 10px;
+        background-color: #f0f0f0;
+        width: 400px;
+        height: 300px;
+        }
+
+        .box {
+        width: 100px;
+        height: 50px;
+        background-color: lightblue;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        }
+
+        .controls button {
+        margin: 5px;
+        }
+
+        .controls button:active {
+            background-color: #85b5e9; /* 按住時變暗 */
+            transform: scale(0.98);    /* 按住時略縮小 */
+
+        }
+
+        .controls button.active {
+            background-color: #0056b3;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="flexbox-demo">
+          <div class="controls">
+            <h2>Flexbox Demo</h2>
+            <p>
+                設定 box 數量:
+                <input type="text" id="flexboxInput_count" placeholder="輸入數量" value="3">
+            </p>
+            <p>
+                flex box 設定寬度為:
+                <input type="text" id="flexboxContainerInput_width" placeholder="輸入寬度" value="400"> px
+            </p>
+            <p>
+                flex box 設定高度為:
+                <input type="text" id="flexboxContainerInput_height" placeholder="輸入高度" value="300"> px
+            </p>
+
+            <p data-group="flex-display">Flex display : 
+                <button onclick="setFlexType('none', event)">None</button>
+                <button onclick="setFlexType('flex', event)">Flex</button>
+                <button onclick="setFlexType('inline-flex', event)">Inline Flex</button>
+            </p>
+            
+            <p data-group="flex-direction">Flex Direction : 
+                <button onclick="setFlexDirection('row', event)">Row</button>
+                <button onclick="setFlexDirection('column', event)">Column</button>
+                <button onclick="setFlexDirection('row-reverse', event)">Row Reverse</button>
+                <button onclick="setFlexDirection('column-reverse', event)">Column Reverse</button>
+            </p>
+
+            <p data-group="justify-content">Justify Content : 
+                <button onclick="setJustifyContent('space-between', event)">Space Between</button>
+                <button onclick="setJustifyContent('center', event)">Center</button>
+                <button onclick="setJustifyContent('space-around', event)">Space Around</button>
+                <button onclick="setJustifyContent('flex-start', event)">Flex Start</button>
+                <button onclick="setJustifyContent('flex-end', event)">Flex End</button>
+                <button onclick="setJustifyContent('stretch', event)">Stretch</button>
+                <button onclick="setJustifyContent('space-evenly', event)">Space Evenly</button>
+            </p>
+            
+            <p data-group="flex-wrap">flex-wrap :
+                <button onclick="setFlexWrap('nowrap', event)">nowrap</button>
+                <button onclick="setFlexWrap('wrap', event)">wrap</button>
+                <button onclick="setFlexWrap('wrap-reverse', event)">wrap-reverse</button>
+            </p>
+            
+            <p data-group="align-items">align-items : 
+                <button onclick="setAlignItems('stretch', event)">stretch</button>
+                <button onclick="setAlignItems('flex-start', event)">flex-start</button>
+                <button onclick="setAlignItems('center', event)">center</button>
+                <button onclick="setAlignItems('flex-end', event)">flex-end</button>
+                <button onclick="setAlignItems('baseline', event)">baseline</button>
+            </p>
+            
+            <p data-group="align-content">align-content :
+                <button onclick="setAlignContent('flex-start', event)">flex-start</button>
+                <button onclick="setAlignContent('space-between', event)">space-between</button>
+                <button onclick="setAlignContent('space-around', event)">space-around</button>
+            </p>
+          </div>
+          <div class="flexbox-container" data-count="3">
+            <div class="box" style="font-size: 14px;">Box 1</div>
+            <div class="box" style="font-size: 24px;">Box 2</div>
+            <div class="box" style="font-size: 18px;">Box 3</div>
+          </div>
+        </div>
+
+        <div class="code-display">
+            <h2>CSS Style Code</h2>
+          <!-- <pre id="code-output"></pre> -->
+          <!-- 嵌入式的 Code Block 帶有複製按鈕 -->
+            <pre class="line-numbers responsive-code" id="code-output"><code class="language-html">
+            </code></pre>
+        </div>
+    </div>
+
+    <script>
+        const flexboxContainer = document.querySelector('.flexbox-container');
+        const codeOutput = document.getElementById('code-output');
+
+        function setFlexType(type, event) {
+            flexboxContainer.style.display = type;
+            updateCode();
+
+            updataActiveButton(event, 'flex-display');
+        }
+
+        function setFlexDirection(direction, event) {
+            flexboxContainer.style.flexDirection = direction;
+            updateCode();
+
+            updataActiveButton(event, 'flex-direction');
+        }
+
+        function setJustifyContent(justify, event) {
+            flexboxContainer.style.justifyContent = justify;
+            updateCode();
+
+            updataActiveButton(event, 'justify-content');
+        }
+
+        function setFlexWrap(wrap, event) {
+            flexboxContainer.style.flexWrap = wrap;
+            updateCode();
+
+            updataActiveButton(event, 'flex-wrap');
+        }
+
+        function setAlignItems(align, event) {
+            flexboxContainer.style.alignItems = align;
+            updateCode();
+
+            updataActiveButton(event, 'align-items');
+        }
+
+        function setAlignContent(align, event) {
+            flexboxContainer.style.alignContent = align;
+            updateCode();
+
+            updataActiveButton(event, 'align-content');
+        }
+
+        function updateflexboxContainerInput() {
+            const inputWidth = document.getElementById('flexboxContainerInput_width');
+            const inputHeight = document.getElementById('flexboxContainerInput_height');
+
+            let inputWidthValue = Number(inputWidth.value);
+            let inputHeightValue = Number(inputHeight.value);
+
+            if(inputWidthValue > 0) {
+                flexboxContainer.style.width = inputWidth.value + 'px';
+            }
+            else {
+                flexboxContainer.style.removeProperty('width');
+            }
+
+            if(inputHeightValue > 0) {
+                flexboxContainer.style.height = inputHeight.value + 'px';
+            }
+            else {
+                flexboxContainer.style.removeProperty('height');
+            }
+        }
+
+        document.getElementById('flexboxContainerInput_width').addEventListener('blur', updateflexboxContainerInput);
+        document.getElementById('flexboxContainerInput_height').addEventListener('blur', updateflexboxContainerInput);
+
+        // 更新顯示的code
+        function updateCode() {
+            //codeOutput.querySelector('code').textContent = '';
+            codeOutput.querySelector('code').textContent = `<style> 
+            .flexbox-container {
+                display: ${flexboxContainer.style.display || 'flex'};
+                flex-direction: ${flexboxContainer.style.flexDirection || 'row'};
+                justify-content: ${flexboxContainer.style.justifyContent || 'flex-start'};
+                flex-wrap: ${flexboxContainer.style.flexWrap || 'nowrap'};
+                align-items: ${flexboxContainer.style.alignItems || 'stretch'};
+                align-content: ${flexboxContainer.style.alignContent || 'stretch'};
+            }
+</style>`;
+            Prism.highlightAll();
+        }
+
+        function updataActiveButton(event, group) {
+            
+            if(event.target.classList.contains('active')) {
+                flexboxContainer.style.removeProperty(`${group}`);
+                event.target.classList.remove('active');
+                return;
+            }
+
+            const groupButton = document.querySelectorAll(`[data-group="${group}"] button`);
+
+            groupButton.forEach(button => button.classList.remove('active'));
+            
+            event.target.classList.add('active');
+        }
+
+
+        // reset flexbox
+        function ResetAllFlexBox() {
+            flexboxContainer.style.removeProperty('flex-direction');
+            flexboxContainer.style.removeProperty('justify-content');
+            flexboxContainer.style.removeProperty('flex-wrap');
+            flexboxContainer.style.removeProperty('align-items');
+            flexboxContainer.style.removeProperty('align-content');
+        }
+
+        //更新box數量
+        function updataBoxCount() {
+            // <div class="box">Box 4</div>
+            console.log(flexboxContainer.dataset.count);
+
+            const boxCount = document.getElementById("flexboxInput_count");
+            
+            if (flexboxContainer.dataset.count === boxCount.value) {
+                return;
+            }
+            else {
+                remainCount = boxCount.value - flexboxContainer.dataset.count;
+                if(remainCount > 0) {
+                    let currentBoxCount = Number(flexboxContainer.dataset.count);
+                    for(let i = 0; i < remainCount; i++) {
+                        const box = document.createElement('div');
+                        box.classList.add('box');
+                        box.textContent = `Box ${currentBoxCount + 1}`;
+                        flexboxContainer.appendChild(box);
+                        currentBoxCount++;
+                    }
+                }
+                else {
+                    remainCount = Math.abs(remainCount);
+                    for(let i = 0; i < remainCount; i++) {
+                        flexboxContainer.removeChild(flexboxContainer.lastElementChild);
+                    }
+                }
+            }
+
+            flexboxContainer.dataset.count = boxCount.value;
+        }
+
+        document.getElementById('flexboxInput_count').addEventListener('blur', updataBoxCount);
+
+    </script>
+      
+</body>
+</html>
